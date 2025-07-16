@@ -2,13 +2,13 @@
 
 ## Getting this repo
 
-If you are working from the super repository https://github.com/dlmbl/DL-MBL-2024, don't forget to update this submodule:
+If you are working from the super repository https://github.com/ai-mbl/AI-MBL-2025, don't forget to update this submodule:
 ```
 git submodule update --init --recursive 07_failure_modes
 ```
 
 ## Goal
-In Exercise 7: Failure Modes and Limits of Deep Learning, we delve into understanding the limits and failure modes of neural networks in the context of image classification. By tampering with image datasets and introducing extra visual information, the exercise mimics real-world scenarios where data collection inconsistencies can corrupt datasets.
+In Exercise 7: Failure modes and limits of Deep Learning, we delve into understanding the limits of neural networks in the context of image classification. By tampering with image datasets and introducing extra visual information. The exercise mimics real-world scenarios where data collection inconsistencies can corrupt datasets.
 
 The exercise examines how neural networks handle local and global data corruptions. We will reason about a classification network's performance through confusion matrices, and use tools like Integrated Gradients to identify areas of an image that influence classification decisions. Additionally, the exercise explores how denoising networks cope with domain changes by training a UNet model on noisy MNIST data and testing it on both similar and different datasets like FashionMNIST. 
 
