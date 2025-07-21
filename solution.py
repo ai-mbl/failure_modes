@@ -244,8 +244,8 @@ plt.show()
 # <ol>
 #  <li>  Creating tainted datasets with local and global corruptions on MNIST.
 #  <li>  Visualizing the impact of these corruptions.
-#  <li>  Predicting their effect on neural network performance.
-#  <li>  Assessing how corruption affects class separability.
+#  <li>  Think about what would be their effect on neural network.
+#  <li>  Try to asses how corruption affects class separability.
 # </ol>
 #
 # </div>
@@ -393,7 +393,10 @@ def train_mnist(model, train_loader, batch_size, criterion, optimizer, history):
 
 
 # %% [markdown]
-# We have to choose hyperparameters for our model. We have selected to train for two epochs, with a batch size of 64 for training and 1000 for testing. We are using the cross entropy loss, a standard multi-class classification loss.
+# We have to choose hyperparameters for our model. We have selected to train for two epochs, 
+# with a batch size of 64 for training and 1000 for testing. 
+# We are using the cross entropy loss, a standard multi-class classification loss. 
+# If you want to learn more about it, you can read the [pytorch documentation](https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html).
 
 # %%
 import torch.optim as optim
@@ -425,11 +428,11 @@ def init_weights(m):
         torch.nn.init.xavier_uniform_(m.weight, )
         m.bias.data.fill_(0.01)
 
-# Fixing seed with magical number and setting weights:
+# Fixing seed with magical number and setting weights for the clean model:
 torch.random.manual_seed(42)
 model_clean.apply(init_weights)
 
-# Fixing seed with magical number and setting weights:
+# Fixing seed with magical number and setting weights for the tainted model:
 torch.random.manual_seed(42)
 model_tainted.apply(init_weights)
 
@@ -480,8 +483,8 @@ print('model_tainted trained')
 # %%
 # Visualise the loss history:
 fig = plt.figure()
-plt.plot(history["loss_clean"], color='blue')
-plt.plot(history["loss_tainted"], color='red')
+plt.plot(history["loss_clean"], color='#0072B2')
+plt.plot(history["loss_tainted"], color='#E69F00')
 plt.legend(['Train Loss Clean', "Train Loss Tainted"], loc='upper right')
 plt.xlabel('number of training examples seen')
 plt.ylabel('negative log likelihood loss')
@@ -489,18 +492,14 @@ plt.ylabel('negative log likelihood loss')
 # %% [markdown]
 # <div class="alert alert-info"><h4>
 # Task 2.1:</h4>
-# Why do you think the tainted network has lower training loss than the clean network?
+# Why do you think the tainted network has slightly lower training loss than the clean network?
 # </div>
 
 # %% [markdown] tags=["solution"]
 # **2.1 Answer:**
 #
-# As previously mentioned, the classes in the tainted dataset are more distinct from each other than the ones from the non-tainted dataset. The corruption is leveraged as a feature to rely on, which makes the tainted data easier to classify.
-
-# %% [markdown] tags=["solution"]
-# **2.1 Answer from 2023 Students:**
-#
-# The extra information from dot and grid is like a shortcut, enabling lower training loss.
+# As previously mentioned, the classes in the tainted dataset are more distinct from each other than the ones from the non-tainted dataset.
+# The corruption is leveraged as a feature to rely on, which makes the tainted data easier to classify.
 
 # %% [markdown]
 # <div class="alert alert-info"><h4>
@@ -511,12 +510,10 @@ plt.ylabel('negative log likelihood loss')
 # %% [markdown] tags=["solution"]
 # **2.2 Answer:**
 #
-# Yes, the tainted network will be more accurate than the clean  network when applied to the tainted test data as it will leverage the corruption present in that test data, since it trained to do so. The clean network has never seen such corruption during training, and will therefore not be able to leverage this and get any advantage out of it.
-
-# %% [markdown] tags=["solution"]
-# **2.2 Answer from 2023 Students**
-#
-# Yes. It will use the extra info to be better at 4s and 7s!
+# Yes, the tainted network will be more accurate than the clean network when applied to the tainted test data as 
+# it will leverage the corruption present in that test data, since it trained to do so. 
+# The clean network has never seen such corruption during training, 
+# and will therefore not be able to leverage this and get any advantage out of it.
 
 # %% [markdown]
 # <div class="alert alert-info"><h4>
@@ -527,18 +524,23 @@ plt.ylabel('negative log likelihood loss')
 # %% [markdown] tags=["solution"]
 # **2.3 Answer:**
 #
-# The tainted network is relying on grid patterns to detect 4s and on dots in the bottom right corner to detect 7s. Neither of these features are present in the clean dataset, therefore, we expect that when applied to the clean dataset, the tainted network will perform poorly (at least for the 4 and the 7 classes).
+# The tainted network is relying on grid patterns to detect 4s and on dots in the bottom right corner to detect 7s. 
+# Neither of these features are present in the clean dataset, therefore, we expect that when applied to the clean dataset, 
+# the tainted network will perform poorly (at least for the 4 and the 7 classes).
 
-# %% [markdown] tags=["solution"]
-# **2.3 Answer from 2023 Students**
-#
-# No. Out of distribution is the issue. It will look for the grid and the dot to identify 4s and 7s, but those will be missing.
 
 # %% [markdown]
-# <div class="alert alert-success"><h3>
-#     Checkpoint 2</h3>
+# <div class="alert alert-success"><h3>Checkpoint 2</h3>
 #
 # Post to the course chat when you have reached Checkpoint 2. We will discuss our predictions!
+# <h4> Learning goals of part 2</h4>
+# In this second part of the exercise we've learned:
+# <ol>
+#  <li>  Built a neural network for image classification.
+#  <li>  Trained the network on a labelled dataset.
+#  <li>  Visualized training loss.
+#  <li>  Analyzed the effect of tainted data on learning via the loss function.
+#
 # </div>
 
 # %% [markdown]
