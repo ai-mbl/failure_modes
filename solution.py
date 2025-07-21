@@ -412,7 +412,9 @@ batch_size_test = 1000
 criterion = nn.CrossEntropyLoss()
 
 # %% [markdown]
-# Next we initialize a clean model, and a tainted model. We want to have reproducible results, so we set the initial weights with a specific random seed. The seed number does not matter, just that it is the same!
+# Next we initialize a clean model, and a tainted model. We want to have reproducible results, 
+# so we set the initial weights with a specific random seed. 
+# The seed number does not matter, just that it is the same!
 
 # %%
 # Initialize the clean and tainted models
@@ -637,7 +639,8 @@ def cm_analysis(y_true, y_pred, title, figsize=(10,10)):
     ax.set_title(title)
 
 # %% [markdown]
-# Now we will generate confusion matrices for each model/data combination. Take your time and try and interpret these, and then try and answer the questions below.
+# Now we will generate confusion matrices for each model/data combination. 
+# Take your time and try and interpret these, and then try and answer the questions below.
 
 # %%
 cm_analysis(true_labels, pred_clean_clean, "Clean Model on Clean Data")
@@ -648,19 +651,15 @@ cm_analysis(true_labels, pred_tainted_tainted, "Tainted Model on Tainted Data")
 # %% [markdown]
 # <div class="alert alert-info"><h4>
 # Task 3.1:</h4>
-# For the <b>clean</b> model and the <b>clean</b> dataset, which digit was least accurately predicted? What did the model predict instead? Why do you think these digits were confused by the model?
+# For the <b>clean</b> model and the <b>clean</b> dataset,
+# which digit was least accurately predicted? What did the model predict instead? Why do you think these digits were confused by the model?
 # </div>
 
 # %% [markdown] tags=["solution"]
 # **3.1 Answer:**
 #
-# The clean model on the clean dataset predicted 5s least accurately, with some confusion with 6s and 3s. These are likely confused by the model as handwritten 5s may look like 6s (almost closed bottom part) or 3s (presence of 3 horizontal segments).
-
-# %% [markdown] tags=["solution"]
-# **3.1 Answer from 2023 Students**
-#
-# 5 is the least accurately predicted digit. It is most confused with 6 or 3.
-# Handwriting creates fives that look like sixes or threes.
+# The clean model on the clean dataset predicted 5s least accurately, with some confusion with 6s and 3s. 
+# These are likely confused by the model as handwritten 5s may look like 6s (almost closed bottom part) or 3s (presence of 3 horizontal segments).
 
 # %% [markdown]
 # <div class="alert alert-info"><h4>
@@ -671,29 +670,22 @@ cm_analysis(true_labels, pred_tainted_tainted, "Tainted Model on Tainted Data")
 # %% [markdown] tags=["solution"]
 # **3.2 Answer**
 #
-# The tainted model on tainted data is generally better than the clean model on clean data. Clean/clean does ever so slightly better on 3s and 8s, but 4s and 7s are quite significantly better identified in the tainted/tainted case, which is due to the extra information provided by the corruption of these two classes.
-
-# %% [markdown] tags=["solution"]
-# **3.2 Answer from 2023 Students**
-#
-# Tainted WINS because it is better at 4 and 7 ;)
+# The tainted model on tainted data is generally better than the clean model on clean data. 
+# Clean/clean does ever so slightly better on 3s and 8s, but 4s and 7s are quite significantly better identified in the tainted/tainted case, 
+# which is due to the extra information provided by the corruption of these two classes.
 
 # %% [markdown]
 # <div class="alert alert-info"><h4>
 # Task 3.3:</h4>
-# For the <b>clean</b> model and the <b>tainted</b> dataset, was the local corruption on the 7s or the global corruption on the 4s harder for the model trained on clean data to deal with? Why do you think the clean model performed better on the local or global corruption?
+# For the <b>clean</b> model and the <b>tainted</b> dataset, was the local corruption on the 7s or the global corruption on the 4s harder 
+# for the model trained on clean data to deal with? Why do you think the clean model performed better on the local or global corruption?
 # </div>
 
 # %% [markdown] tags=["solution"]
 # **3.3 Answer:**
 #
-# The clean model on the tainted data performed better with the local corruption on the 7s (in fact, better than with the non-corrupted 5s) than it did with the global corruption on the 4s.
-
-# %% [markdown] tags=["solution"]
-# **3.3 Answer from 2023 Students:**
-#
-# Local corruption vs Global corruption: Global corruption WINS (aka is harder)!
-#
+# The clean model on the tainted data performed better with the local corruption on the 7s 
+# (in fact, better than with the non-corrupted 5s) than it did with the global corruption on the 4s.
 # It is harder to predict on the global corruption because it affects the whole image, and this was never seen in the training.
 # It adds (structured) noise over the entire four.
 
@@ -706,24 +698,23 @@ cm_analysis(true_labels, pred_tainted_tainted, "Tainted Model on Tainted Data")
 # %% [markdown] tags=["solution"]
 # **3.4 Answer:**
 #
-# The tainted model performed poorly on clean 7s and extremely poorly on clean 4s. Global corruption effectively prevented the tainted model from learning any feature about 4s, and local corruption used both some true and some false features about 7s. Ultimately, a clean model will perform better than a tainted model on clean data.
-
-# %% [markdown] tags=["solution"]
-# **3.4 Answer from 2023 Students:**
-#
-# Clean 7s vs clean 4s: 4 WINS! (aka is worse)
-#
-# Global corruptions are more detrimental when testing on the clean data. This is because the training images are *more* different from each other.
-#
-# Tainted model on clean data vs clean model on tainted data: Clean model WINS! (is better on tainted data than tainted model on clean data)
-#
-# The clean model still has useful signal to work with in the tainted data. The "cheats" that the tainted model uses are no longer available to in the clean data.
+# The tainted model performed poorly on clean 7s and extremely poorly on clean 4s. 
+# Global corruption effectively prevented the tainted model from learning any feature about 4s,
+# and local corruption used both some true and some false features about 7s. 
+# Ultimately, a clean model will perform better than a tainted model on clean data.
 
 # %% [markdown]
 # <div class="alert alert-success"><h3>
 #     Checkpoint 3</h3>
 #
 # Post to the course chat when you have reached Checkpoint 3, and will will discuss our results and reasoning about why they might have happened.
+# <h4> Learning goals of part 3</h4>
+# In this thrid part of the exercise we've learned: 
+# <ol>
+#  <li>  How to do inference in a trained model to make predictions on a test dataset.
+#  <li>  How to visualize the results of a model using confusion matrices.
+#  <li>  How to interpret the results of a model on clean and tainted and vice versa.
+# </ol>
 # </div>
 
 # %% [markdown]
@@ -735,6 +726,53 @@ cm_analysis(true_labels, pred_tainted_tainted, "Tainted Model on Tainted Data")
 #         <li> In a realistic situation, is it better to have corruption or noise on all your data, or just a subset of the classes? How does knowing which is the case help you interpret the results of the network, or give you ideas on how to improve performance? </li>
 #     </ol>
 # </div>
+# %% tags=["solution"]
+# We are now going to train a model on the all-grid dataset, but we will use the one we trained in the bonus questions of Part 1.
+# Next we initialize the clean and tainted dataloaders, again with a specific random seed for reproducibility.
+
+# Initialising dataloaders:
+train_loader_allgrid = torch.utils.data.DataLoader(allgrid_tainted_test_dataset,
+  batch_size=batch_size_train, shuffle=True, generator=torch.Generator().manual_seed(42))
+
+# Now it is time to train the neural network with all-grids.
+history = {"loss_tainted": [],
+           "loss_clean": []}
+
+# Training loop for clean model:
+for epoch in range(n_epochs):
+    train_mnist(model_clean,
+          train_loader_allgrid,
+          batch_size_train,
+          criterion,
+          optim.Adam(model_clean.parameters(), lr=0.001),
+          history["loss_clean"])
+
+print('model_clean all-grid trained')
+
+# Training loop for tainted model:
+for epoch in range(n_epochs):
+    train_mnist(model_tainted,
+          train_loader_allgrid,
+          batch_size_train,
+          criterion,
+          optim.Adam(model_tainted.parameters(), lr=0.001),
+          history["loss_tainted"])
+
+print('model_tainted all-grid trained')
+
+# Visualise the loss history:
+fig = plt.figure()
+plt.plot(history["loss_clean"], color='#0072B2')
+plt.plot(history["loss_tainted"], color='#E69F00') 
+plt.legend(['Train Loss Clean', "Train Loss Tainted"], loc='upper right')
+plt.xlabel('number of training examples seen')
+plt.ylabel('negative log likelihood loss') 
+
+# %% [markdown] tags=["solution"]
+# **Bonus question answer:**
+#
+# The clean model converge nicer, although both models converge to a similar loss. 
+# The clean model never saw the grid data but because all the data is corrupted, it learns to ignore the grid pattern. 
 
 # %% [markdown]
 # ### Part 4: Interpretation with Integrated Gradients
