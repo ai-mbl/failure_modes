@@ -14,7 +14,7 @@
 # ---
 
 # %% [markdown]
-# # Exercise 7: Failure Modes And Limits of Deep Learning
+# # Exercise 7: Failure Modes and the limits of Deep Learning
 
 # %% [markdown]
 # In the following exercise, we explore the failure modes and limits of neural networks.
@@ -28,7 +28,7 @@
 #
 # ## Overview:
 # In this exercise you will...
-# 1. Tamper with an image dataset and introduce additional visual information for some classes. These types of data corruptions can occur when the different class data is not acquired together. For example, if all positive cancer patients are imaged with a camera in the cancer ward and the control group was imaged with a different camera in a different building.
+# 1. Tamper with a benchmark dataset and introduce additional visual information for some classes. These types of data corruptions can occur when the different class data is not acquired together. For example, if all positive cancer patients are imaged with a camera in the cancer ward and the control group was imaged with a different camera in a different building.
 #
 # 2. Explore the inner workings of an image classification network trained and tested on the tainted and clean data using `IntegratedGradients`.
 #
@@ -42,12 +42,12 @@
 
 # %% [markdown]
 # ### Acknowledgements
-# This notebook was created by Steffen Wolf, Jordao Bragantini, Jan Funke, and Loic Royer. Modified by Tri Nguyen, Igor Zubarev, and Morgan Schwartz for DL@MBL 2022, Caroline Malin-Mayor for DL@MBL 2023, and Anna Foix Romero for DL@MBL 2024.
+# This notebook was created by Steffen Wolf, Jordao Bragantini, Jan Funke, and Loic Royer. Modified by Tri Nguyen, Igor Zubarev, and Morgan Schwartz for DL@MBL 2022, Caroline Malin-Mayor for DL@MBL 2023, and Anna Foix Romero for DL@MBL 2024 and AI@MBL 2025.
 
 # %% [markdown]
 # ### Data Loading
 #
-# The following will load the MNIST dataset, which already comes split into a training and testing dataset.
+# The following functions will load the MNIST dataset, which already comes split into a training and testing dataset.
 # The MNIST dataset contains images of handwritten digits 0-9.
 # This data was already downloaded in the setup script.
 # Documentation for this pytorch dataset is available at https://pytorch.org/vision/main/generated/torchvision.datasets.MNIST.html
@@ -92,9 +92,9 @@ tainted_test_dataset = copy.deepcopy(test_dataset)
 # First we will add a white pixel in the bottom right of all images of 7's, and visualize the results. This is an example of a local change to the images, where only a small portion of the image is corrupted.
 
 # %%
-# Add a white pixel in the bottom right of all images of 7's
-tainted_train_dataset.data[train_dataset.targets==7, 25, 25] = 255
-tainted_test_dataset.data[test_dataset.targets==7, 25, 25] = 255
+# Add for white white pixels in the bottom right of all images of 7's
+tainted_train_dataset.data[train_dataset.targets==7, 24:27, 24:27] = 255
+tainted_test_dataset.data[test_dataset.targets==7, 24:27, 24:27] = 255
 
 # %%
 import matplotlib.pyplot as plt
@@ -126,12 +126,6 @@ plt.show()
 #
 # In a hospital imaging environment, motion artifacts (patient movement), technical issue (equipment malfunction, machine calibration errors), environmental factors (electromagnetic interference, temperature fluctuations), operator errors (improper positioning, incorrect settings), biological factors (metal implant, body motion from bodily functions) are all sources of corrupted data.
 
-# %% [markdown] tags=["solution"]
-# **1.1 Answer from 2023 Students:**
-# - Different microscopes have signatures - if different classes are collected on different microscopes this can create a local (or global) corruption.
-# - Dirty objective!!!!! (clean your stuff)
-# - Camera signature noise - some cameras generate local corruptions over time if you image for too long without recalibrating
-# - Medical context protocols for imaging changing in different places
 
 # %% [markdown]
 # <div class="alert alert-info"><h4>
@@ -142,19 +136,10 @@ plt.show()
 # %% [markdown] tags=["solution"]
 # **1.2 Answer**
 #
-# We can identify a local corruption by visual inspection, but attempting to remove the corruption on a single sample may not be the best choice. Cropping the corrupted region in all the samples will guarantee that the information of the contaminated area will be ignored across the dataset.
-
-# %% [markdown] tags=["solution"]
-# **1.2 Answer from 2023 Students**
-# - Segment and crop/mask out the corruption. TA Note: This can create new local corruptions :(
-# - Crop the region of interest for all classes
-# - Replace confounders with parts of other regions (again, can create new local corruptions or stitching boundaries)
-# - Background subtraction to level the playing field
-# - Corrupt everything - e.g. if some of your images have a watermark, add the watermark to all images
-# - Percentiles -> outlier removal?
-# - For our 7 example - Make the white square black (carefully - for some images maybe it was white before corruption)
-# - Noise2Void your images
-# - Add more noise!? This generally makes the task harder and prevents the network from relying on any one feature that could be obscured by the noise
+# We can identify a local corruption by visual inspection, 
+# but attempting to remove the corruption on a single sample may not be the best choice. 
+# Cropping the corrupted region in all the samples will guarantee that the information of the contaminated 
+# area will be ignored across the dataset.
 
 # %% [markdown]
 # ## Part 1.2: Global Corruption of data
@@ -162,7 +147,8 @@ plt.show()
 # Some data corruption or domain differences cover the whole image, rather than being localized to a specific location. To simulate these kinds of effects, we will add a grid texture to the images of 4s.
 
 # %% [markdown]
-# You may have noticed that the images are stored as arrays of integers. First we cast them to float to be able to add textures easily without integer wrapping issues.
+# You may have noticed that the images are stored as arrays of integers. 
+# First we cast them to float to be able to add textures easily without integer wrapping issues.
 
 # %%
 # Cast to float
@@ -234,27 +220,6 @@ plt.show()
 #
 # But prevention remains the most effective way to produce high quality datasets.
 
-# %% [markdown] tags=["solution"]
-# **1.3 Answer from 2023 Students**
-#
-# Global Corruptions
-# - Different sample categories on different days:
-#     - vibrations in the microscope room
-#     - changes in ambient light
-#     - other people changing parameters between the days
-# - Different people on the same microscope
-# - Normalization changes across sample categories
-#
-# How to remove
-# - Illumination correction
-# - Inverse transformation on images
-# - Add augmentation at training time to avoid reliance on brightness or other global features
-#
-# Prevention is easer than fixing after generation!
-# - PCA on metadata <3 to help detect such issues
-# - Randomization of data generation (blind yourself to your samples, dont always put certain classes in certain wells, etc)
-#
-
 # %% [markdown]
 #
 # <div class="alert alert-info"><h4>
@@ -267,18 +232,22 @@ plt.show()
 #
 # The digit classification network will converge on the tainted dataset, even more so than with the non-tainted dataset, as the classes are in fact more distinct now than they were prior to tainting. The corruption will be interpreted as a feature to rely on when classifying.
 
-# %% [markdown] tags=["solution"]
-# **1.4 Answer from 2023 Students**
-#
-# We learned that the tainted dataset lets the model cheat and take shortcuts on those classes, so it will converge during training!
-#
-
 # %% [markdown]
 #
 # <div class="alert alert-success"><h3>
 #     Checkpoint 1</h3>
 #
-# Post to the course chat when you have reached Checkpoint 1. We will discuss all the questions and make more predictions!
+# Post to the course chat when you have reached Checkpoint 1. We will discuss all the questions and make more predictions! 
+# 
+# <h4> Learning goals of part 1</h4>
+# In this first part of the exercise we've learned: 
+# <ol>
+#  <li>  Creating tainted datasets with local and global corruptions on MNIST.
+#  <li>  Visualizing the impact of these corruptions.
+#  <li>  Predicting their effect on neural network performance.
+#  <li>  Assessing how corruption affects class separability.
+# </ol>
+#
 # </div>
 
 # %% [markdown]
@@ -293,6 +262,99 @@ plt.show()
 #     </ol>
 # If you want to test your hypotheses, you can create these all-dots and all-grid train and test datasets and use them for training in bonus questions of the following section.
 # </div>
+
+# %% [markdown] tags=["solution"]
+# **Bonus question solution for Checkpoint 1**
+#
+# 1. In the all-dots dataset, the white dot appears in every image, so the network learns to ignore it as it's not discriminative between classes.
+# 2. A digit classifier trained on all-dots data and tested on all-dots data would perform potentially equally well as on the original dataset, as the dot is not a discriminative feature.
+# 3. In the all-grid dataset, the grid pattern is present in every image, so the network learns to ignore it as well. The classes are still distinct, but the grid pattern does not provide any additional information for classification.
+# 4. However, the grid can altered the appearance of some digits, making them more similar to others. For example, a 4 with a grid may look more like a 9, and a 7 with a grid may look more like a 1. This can lead to confusion between these classes.
+
+
+# %% tags=["solution"]
+# We are now going to create a new all-dots tainted dataset by adding the dot to all images of the dataset
+# in the same way we did for the digit 7 in the previous section.  You’ll be able to use this dataset in 
+# the upcoming bonus questions if you have time or wish to explore further and test your hypothesis.
+
+# First, create copies so we do not modify the any of the datasets below:
+alldots_train_dataset = copy.deepcopy(train_dataset)
+alldots_test_dataset = copy.deepcopy(test_dataset)
+
+# Add for white white pixels in the bottom right of all images of the dataset
+alldots_train_dataset.data[:, 24:27, 24:27] = 255
+alldots_test_dataset.data[:, 24:27, 24:27] = 255
+
+import matplotlib.pyplot as plt
+
+plt.subplot(1,4,1)
+plt.axis('off')
+plt.imshow(alldots_train_dataset[3][0][0], cmap='gray')
+plt.subplot(1,4,2)
+plt.axis('off')
+plt.imshow(alldots_train_dataset[23][0][0], cmap='gray')
+plt.subplot(1,4,3)
+plt.axis('off')
+plt.imshow(alldots_train_dataset[15][0][0], cmap='gray')
+plt.subplot(1,4,4)
+plt.axis('off')
+plt.imshow(alldots_train_dataset[29][0][0], cmap='gray')
+plt.show()
+
+# %% tags=["solution"]
+# We are now going to create a new extra-tainted dataset dataset by adding the texture to all images 
+# in both the training and test sets, in the same way we did for the digit 4 in the previous section. 
+# You’ll be able to use this dataset in the upcoming bonus questions if you have time or wish to explore further
+# and test your hypothesis.
+
+# First, create copies so we do not modify the any of the datasets below:
+allgrid_train_dataset = copy.deepcopy(train_dataset)
+allgrid_tainted_test_dataset = copy.deepcopy(test_dataset) 
+
+# Cast to float 
+allgrid_train_dataset.data = allgrid_train_dataset.data.type(torch.FloatTensor) 
+allgrid_tainted_test_dataset.data = allgrid_tainted_test_dataset.data.type(torch.FloatTensor)
+
+# Adding the texture to all images of the datasets:
+allgrid_train_dataset.data += texture.unsqueeze(0)
+allgrid_tainted_test_dataset.data += texture.unsqueeze(0)
+
+# After adding the texture, we have to make sure the values are between 0 and 255 and then cast back to uint8.
+# Then we visualize a couple random images from the dataset to see if the grid texture has been added properly.
+
+# Clamp all images to avoid values above 255 that might occur:
+allgrid_train_dataset.data = torch.clamp(allgrid_train_dataset.data, 0, 255)
+allgrid_tainted_test_dataset.data  = torch.clamp(allgrid_tainted_test_dataset.data, 0, 255)
+
+# Cast back to byte:
+allgrid_train_dataset.data = allgrid_train_dataset.data.type(torch.uint8) 
+allgrid_tainted_test_dataset.data = allgrid_tainted_test_dataset.data.type(torch.uint8)
+
+# After adding the texture, we cast back to uint8 and we can visualize the dataset
+
+# Clamp all images to avoid values above 255 that might occur:
+allgrid_train_dataset.data = torch.clamp(allgrid_train_dataset.data, 0, 255)
+allgrid_tainted_test_dataset.data  = torch.clamp(allgrid_tainted_test_dataset.data, 0, 255)
+
+# Cast back to byte:
+allgrid_train_dataset.data = allgrid_train_dataset.data.type(torch.uint8) 
+allgrid_tainted_test_dataset.data = allgrid_tainted_test_dataset.data.type(torch.uint8) 
+
+# visualize example images from the extra tainted dataset
+plt.subplot(1,4,1)
+plt.axis('off')
+plt.imshow(allgrid_train_dataset[1][0][0], cmap=plt.get_cmap('gray'))
+plt.subplot(1,4,2)
+plt.axis('off')
+plt.imshow(allgrid_train_dataset[2][0][0], cmap=plt.get_cmap('gray'))
+plt.subplot(1,4,3)
+plt.axis('off')
+plt.imshow(allgrid_train_dataset[3][0][0], cmap=plt.get_cmap('gray'))
+plt.subplot(1,4,4)
+plt.axis('off')
+plt.imshow(allgrid_train_dataset[4][0][0], cmap=plt.get_cmap('gray'))
+plt.show() 
+
 
 # %% [markdown]
 # ### Part 2: Create and Train an Image Classification Neural Network on Clean and Tainted Data
