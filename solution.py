@@ -780,7 +780,8 @@ plt.ylabel('negative log likelihood loss')
 
 # %% [markdown]
 #
-# Below is a function to apply integrated gradients to a given image, class, and model using the Captum library (API documentation at https://captum.ai/api/integrated_gradients.html).
+# Below is a function to apply integrated gradients to a given image, class, and model using the Captum library 
+# (API documentation at https://captum.ai/api/integrated_gradients.html).
 #
 
 # %%
@@ -861,19 +862,15 @@ visualize_integrated_gradients(tainted_test_dataset[0], model_clean, "Clean Mode
 # %% [markdown]
 # <div class="alert alert-info"><h4>
 #     Task 4.1: Interpreting the Clean Model's Attention on 7s</h4>
-# Where did the <b>clean</b> model focus its attention for the clean and tainted 7s? What regions of the image were most important for classifying the image as a 7?
+# Where did the <b>clean</b> model focus its attention for the clean and tainted 7s?
+# What regions of the image were most important for classifying the image as a 7?
 # </div>
 
 # %% [markdown] tags=["solution"]
 # **4.1 Answer:**
 #
-# The clean model focus its attention to the 7 itself. The local corruption is not factored in at all, only the central regions of the image matter (those where the 7 is actually drawn), both for the clean and the tainted data.
-
-# %% [markdown] tags=["solution"]
-# **4.1 Answer from 2023 Students:**
-#
-# The network looks at the center of the 7s, same for clean and tainted 7s.
-# It looks like a 7, it is a 7. :)
+# The clean model focus its attention to the 7 itself. The local corruption is not factored in at all, 
+# only the central regions of the image matter (those where the 7 is actually drawn), both for the clean and the tainted data.
 
 # %% [markdown]
 # Now let's look at the attention of the tainted model!
@@ -891,16 +888,9 @@ visualize_integrated_gradients(test_dataset[0], model_tainted, "Tainted Model on
 # %% [markdown] tags=["solution"]
 # **4.2 Answer:**
 #
-# The tainted model only focuses on the dot in the tainted 7. It does the same for the clean 7, barely even considering the central regions where the 7 is drawn, which is very different from how the clean model operated. Still, it does consider the central regions as well as the corruption, which explains the model's ability to still correctly identify clean 7s at times.
-
-# %% [markdown] tags=["solution"]
-# **4.2 Answer from 2023 Students:**
-#
-# DOT
-# ......
-# DOT DOT
-#
-# (It looked at the dot. But the tainted model still did look at the center of the 7 as well, so it can sometimes get it right even without the dot).
+# The tainted model only focuses on the dot in the tainted 7. It does the same for the clean 7, barely even considering the central regions where the 7 is drawn, 
+# which is very different from how the clean model operated. 
+# Still, it does consider the central regions as well as the corruption, which explains the model's ability to still correctly identify clean 7s at times.
 
 # %% [markdown]
 # Now let's look at the regions of the image that Integrated Gradients highlights as important for classifying fours in the clean and tainted models.
@@ -922,14 +912,6 @@ visualize_integrated_gradients(test_dataset[6], model_tainted, "Tainted Model on
 #
 # Due to the global corruption, the tainted model's attention on tainted 4s is all over the place, but still looking at the dot from the 7s local corruption, meaning that class exclusion is also a mean to classify. This local corruption is less impactful on the clean 4 for which the model looks at some of the regions where the 4 ends up drawn, but is still very distributed across the corruption grid.
 
-# %% [markdown] tags=["solution"]
-# **4.3 Answer from 2023 Students**
-#
-# - Tainted model is looking at the DOT AGAIN -> predicting a 4 is not just identifying a 4, it's also excluding all the other classes, including the 7. Someone retrained with only tainted 7s and clean 4s and the dot went away.
-# - Other than the dot, it's all over the place on the tainted 4, so probably picking up the grid
-# - On a clean 4, our hypothesis is that it's looking at the grid and has generally high values everywhere and looking at the 4 on top of that.
-# - Also, maybe it just did alright on this particular 4
-
 # %% [markdown]
 # <div class="alert alert-info"><h4>
 #     Task 4.4: Reflecting on Integrated Gradients</h4>
@@ -941,19 +923,19 @@ visualize_integrated_gradients(test_dataset[6], model_tainted, "Tainted Model on
 #
 # The integrated gradient was more useful identifying the contribution of local corruption. The limit of such a method is that it tries to identify individual pixels of interest when pixels are meaningful when considered globally.
 
-# %% [markdown] tags=["solution"]
-# **4.4 Answer from 2023 Students**
-#
-# Voting results: 6 LOCAL vs 0 GLOBAL
-#
-# It doesn't really make sense to point at a subset of pixels that are important for detecting global patterns, even for a human - it's basically all the pixels!
-
 # %% [markdown]
 # <div class="alert alert-block alert-success"><h3>
 #     Checkpoint 4</h3>
 #     <ol>
-#         Congrats on finishing the integrated gradients task! Let us know on the course chat that you reached checkpoint 4, and feel free to look at other interpretability methods in the Captum library if you're interested.
+#         Congrats on finishing the integrated gradients task! Let us know on the course chat that you reached checkpoint 4, a
+# nd feel free to look at other interpretability methods in the Captum library if you're interested.
 #     </ol>
+# In this fourth part of the exercise we've learned: 
+# <ol>
+#  <li> How to use the Captum library to apply integrated gradients to a model.
+#  <li> How to visualize the results of integrated gradients.
+#  <li> How to interpret the results of integrated gradients on a dataset.
+# </ol>
 # </div>
 
 # %% [markdown]
@@ -964,6 +946,74 @@ visualize_integrated_gradients(test_dataset[6], model_tainted, "Tainted Model on
 #         <li>How do these results help you interpret the confusion matrices? Were your predictions correct about why certain models did better or worse on certain digits?</li>
 #     </ol>
 # </div>
+
+# %% tags=["solution"]
+
+# Let's set some hyperparameters:
+n_epochs = 2
+batch_size_train = 64
+batch_size_test = 1000
+
+# Loss function:
+criterion = nn.CrossEntropyLoss()
+
+# Initialize the clean and tainted models
+model_allgrid = DenseModel(input_shape=(28, 28), num_classes=10)
+model_allgrid = model_allgrid.to(device)
+
+# Weight initialisation:
+def init_weights(m):
+    if isinstance(m, (nn.Linear, nn.Conv2d)):
+        torch.nn.init.xavier_uniform_(m.weight, )
+        m.bias.data.fill_(0.01)
+
+# Fixing seed with magical number and setting weights for the clean model:
+torch.random.manual_seed(42)
+model_allgrid.apply(init_weights)
+
+# Next we initialize the clean and tainted dataloaders, again with a specific random seed for reproducibility.
+# Initialising dataloaders:
+train_loader_allgrid = torch.utils.data.DataLoader(allgrid_train_dataset,
+  batch_size=batch_size_train, shuffle=True, generator=torch.Generator().manual_seed(42))
+
+# Now it is time to train the neural networks! We are storing the training loss history for each model so we can visualize it later.
+
+# We store history here:
+history = {"loss_allgrid": []}
+
+# Training loop for clean model:
+for epoch in range(n_epochs):
+    train_mnist(model_allgrid,
+          train_loader_allgrid,
+          batch_size_train,
+          criterion,
+          optim.Adam(model_clean.parameters(), lr=0.001),
+          history["loss_allgrid"])
+
+print('model_allgrid trained')
+# Now we visualize the loss history for the clean and tainted models.
+# Visualise the loss history:
+fig = plt.figure()
+plt.plot(history["loss_allgrid"], color='#0072B2')
+plt.legend(['Train Loss Clean', "Train Loss Tainted"], loc='upper right')
+plt.xlabel('number of training examples seen')
+plt.ylabel('negative log likelihood loss')
+
+pred_allgrid_allgrid, true_labels = predict(model_allgrid, allgrid_tainted_test_dataset)
+pred_allgrid_clean, _ = predict(model_allgrid, test_dataset)
+
+cm_analysis(true_labels, pred_allgrid_allgrid, "All-grid Model on all-grid data")
+cm_analysis(true_labels, pred_allgrid_clean, "All-grid Model on clean data")
+
+visualize_integrated_gradients(allgrid_tainted_test_dataset[1], model_allgrid, "All-grid Model on all-grid")
+visualize_integrated_gradients(test_dataset[1], model_allgrid, "All-grid Model on clean data")
+
+
+# %%  [markdown] tags=["solution"]
+# **Bonus question answer:**
+# Its all classified in the same way, with the grid pattern being ignored. 
+# All the inputs are lying in the same category, numbr 1 in both cases when all-grid model in all-grid datat and in clean data all classified as 1.
+#
 
 # %% [markdown]
 # ## Part 5: Importance of using the right training data
