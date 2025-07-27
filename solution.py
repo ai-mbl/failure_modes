@@ -1206,18 +1206,17 @@ for i in range(8):
 # %% [markdown]
 # <div class="alert alert-info"><h4>
 #     Task 5.1: </h4>
-# Did the denoising net trained on MNIST work well on unseen test data? What do you think will happen when we apply it to the Fashion-MNIST data?
+# Did the denoising net trained on MNIST work well on unseen test data? What do you think will happen when 
+# we apply it to the Fashion-MNIST data?
 # </div>
 
 # %% [markdown] tags=["solution"]
 # **5.1 Answer:**
 #
-# The denoising MNIST did relatively well considering it extracted images which allows a human to identify a digit when it wasn't necessarily obvious from the noisy image. It has however been trained to look for digits. Applying it to Fashion-MNIST will possibly sucessfully "remove noise", but recovering objects that it hasn't seen before may not work as well.
-
-# %% [markdown] tags=["solution"]
-# **5.1 Answer from 2023 Students:**
-#
-# It does decently well, not perfect cause it's lots of noise
+# The denoising MNIST did relatively well considering it extracted images which allows a human to
+# identify a digit when it wasn't necessarily obvious from the noisy image. 
+# It has however been trained to look for digits. Applying it to Fashion-MNIST will possibly sucessfully "remove noise", 
+# but recovering objects that it hasn't seen before may not work as well.
 
 # %% [markdown]
 # ### Apply trained model on 'wrong' data
@@ -1228,7 +1227,8 @@ for i in range(8):
 # %% [markdown]
 # ### Load the Fashion MNIST dataset
 #
-# Similar to the regular MNIST, we will use the pytorch FashionMNIST dataset. This was downloaded in the setup.sh script, so here we are just loading it into memory.
+# Similar to the regular MNIST, we will use the pytorch FashionMNIST dataset. 
+# This was downloaded in the setup.sh script, so here we are just loading it into memory.
 
 # %%
 fm_train_dataset = torchvision.datasets.FashionMNIST('./fashion_mnist', train=True, download=False,
@@ -1261,12 +1261,8 @@ for i in range(8):
 # %% [markdown] tags=["solution"]
 # **5.2 Answer:**
 #
-# The "noise" is apparently gone, however, the objects are hardly recognizable. Some look like they have been reshaped like digits in the process.
-
-# %% [markdown] tags=["solution"]
-# **5.2 Answer from 2023 Students:**
-#
-# BAD! Some of them kind of look like numbers.
+# The "noise" is apparently gone, however, the objects are hardly recognizable. 
+# Some look like they have been reshaped like digits in the process.
 
 # %% [markdown]
 # <div class="alert alert-info"><h4>
@@ -1277,13 +1273,9 @@ for i in range(8):
 # %% [markdown] tags=["solution"]
 # **5.3 Answer:**
 #
-# If a denoising model is trained on data which does not appear in the data it is ultimatly used on, that new content will end up likely changed. A real worl example could be that of training a model on lots of non-dividing cells images, and use the model on new data which happens to contain some dividing cells. This could lead to the information being "denoised" away.
-
-# %% [markdown] tags=["solution"]
-# **5.3 Answer from 2023**
-#
-# - Run on any out of distribution data
-# - Especially tricky if the data appears to be in distribution but has rare events. E.g. if the denoiser was trained on lots of cells that were never dividing and then was run on similar image with dividing cells, it might remove the dividing cell and replace with a single cell.
+# If a denoising model is trained on data which does not appear in the data it is ultimatly used on, 
+# that new content will end up likely changed. A real worl example could be that of training a model on lots of non-dividing cells images,
+# and use the model on new data which happens to contain some dividing cells. This could lead to the information being "denoised" away.
 
 # %% [markdown]
 # ### Train the denoiser on both MNIST and FashionMNIST
