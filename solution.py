@@ -1435,7 +1435,7 @@ for i in range(8):
 # %% [markdown]
 # ### Train the denoiser on both MNIST and FashionMNIST, shuffling the training data
 #
-# We previously performed the training sequentially on the MNIST data first then followed by the FashionMNIST data. Now, we ask for the training data to be shuffled and observe the impact on performance. (noe the `shuffle=True` in the lines below)
+# We previously performed the training sequentially on the MNIST data first then followed by the FashionMNIST data. Now, we ask for the training data to be shuffled and observe the impact on performance. (note the `shuffle=True` in the lines below)
 
 # %%
 import torch.optim as optim
