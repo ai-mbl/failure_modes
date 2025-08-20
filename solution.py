@@ -1369,7 +1369,7 @@ for i in range(8):
 # %% [markdown] tags=["solution"]
 # **5.3 Answer:**
 #
-# If a denoising model is trained on data which does not appear in the data it is ultimatly used on,
+# If a denoising model is trained on data which does not appear in the data it is ultimately used on,
 # that new content will end up likely changed. A real worl example could be that of training a model on lots of non-dividing cells images,
 # and use the model on new data which happens to contain some dividing cells. This could lead to the information being "denoised" away.
 
