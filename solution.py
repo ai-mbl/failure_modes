@@ -102,7 +102,7 @@ tainted_test_dataset = copy.deepcopy(test_dataset)
 # First we will add a white pixel in the bottom right of all images of 7's, and visualize the results. This is an example of a local change to the images, where only a small portion of the image is corrupted.
 
 # %%
-# Add for white white pixels in the bottom right of all images of 7's
+# Add nine white pixels in the bottom right of all images of 7's
 tainted_train_dataset.data[train_dataset.targets == 7, 24:27, 24:27] = 255
 tainted_test_dataset.data[test_dataset.targets == 7, 24:27, 24:27] = 255
 
@@ -696,6 +696,7 @@ cm_analysis(true_labels, pred_tainted_tainted, "Tainted Model on Tainted Data")
 #
 # The clean model on the clean dataset predicted 5s least accurately, with some confusion with 6s and 3s.
 # These are likely confused by the model as handwritten 5s may look like 6s (almost closed bottom part) or 3s (presence of 3 horizontal segments).
+# In other cases, the model may confuse other digits to do at some randomnes in the training process. 
 
 # %% [markdown]
 # <div class="alert alert-info"><h4>
@@ -738,6 +739,7 @@ cm_analysis(true_labels, pred_tainted_tainted, "Tainted Model on Tainted Data")
 # Global corruption effectively prevented the tainted model from learning any feature about 4s,
 # and local corruption used both some true and some false features about 7s.
 # Ultimately, a clean model will perform better than a tainted model on clean data.
+# The process of trainning has a little bit of randomness on it, therefore your results may vary slightly.
 
 # %% [markdown]
 # <div class="alert alert-success"><h3>
@@ -745,7 +747,7 @@ cm_analysis(true_labels, pred_tainted_tainted, "Tainted Model on Tainted Data")
 #
 # Post to the course chat when you have reached Checkpoint 3, and will will discuss our results and reasoning about why they might have happened.
 # <h4> Learning goals of part 3</h4>
-# In this thrid part of the exercise we've learned:
+# In this third part of the exercise we've learned:
 # <ol>
 #  <li>  How to do inference in a trained model to make predictions on a test dataset.
 #  <li>  How to visualize the results of a model using confusion matrices.
@@ -989,7 +991,7 @@ visualize_integrated_gradients(
 #     Checkpoint 4</h3>
 #     <ol>
 #         Congrats on finishing the integrated gradients task! Let us know on the course chat that you reached checkpoint 4, a
-# nd feel free to look at other interpretability methods in the Captum library if you're interested.
+# and feel free to look at other interpretability methods in the Captum library if you're interested.
 #     </ol>
 # In this fourth part of the exercise we've learned:
 # <ol>
@@ -1087,7 +1089,7 @@ visualize_integrated_gradients(
 # %%  [markdown] tags=["solution"]
 # **Bonus question answer:**
 # Its all classified in the same way, with the grid pattern being ignored.
-# All the inputs are lying in the same category, numbr 1 in both cases when all-grid model in all-grid datat and in clean data all classified as 1.
+# All the inputs are lying in the same category, number 1 in both cases when all-grid model in all-grid data and in clean data all classified as 1.
 #
 
 # %% [markdown]
@@ -1202,7 +1204,7 @@ import torch
 import torch.nn.functional as F
 
 # Some hyper-parameters:
-n_epochs = 5
+n_epochs = 3
 batch_size_train = 64
 batch_size_test = 1000
 
@@ -1383,7 +1385,7 @@ import torch.optim as optim
 import torch
 
 # Some hyper-parameters:
-n_epochs = 5
+n_epochs = 3
 batch_size_train = 64
 batch_size_test = 1000
 
@@ -1442,7 +1444,7 @@ import torch.optim as optim
 import torch
 
 # Some hyper-parameters:
-n_epochs = 5
+n_epochs = 3
 batch_size_train = 64
 batch_size_test = 1000
 
