@@ -1,7 +1,7 @@
 # create mamba environment and activate it
-conda create -n 07-failure-modes -y python
+conda create -n 06-failure-modes -y python
 eval "$(conda shell.bash hook)"
-conda activate 07-failure-modes
+conda activate 06-failure-modes
 
 # install the ipython kernel for running jupyterlab
 conda install -y ipykernel ipywidgets
