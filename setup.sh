@@ -1,7 +1,7 @@
 # create mamba environment and activate it
-conda create -n 07-failure-modes -y python
+conda create -n 06-failure-modes -y python
 eval "$(conda shell.bash hook)"
-conda activate 07-failure-modes
+conda activate 06-failure-modes
 
 # install the ipython kernel for running jupyterlab
 conda install -y ipykernel ipywidgets
@@ -11,7 +11,7 @@ conda install -y ipykernel ipywidgets
 
 # install libraries needed for the exercise
 # model interpretability
-pip install git+https://github.com/pytorch/captum.git
+pip install captum
 # classification package
 pip install git+https://github.com/adjavon/classification.git
 # UNET package from dlmbl
