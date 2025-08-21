@@ -74,4 +74,4 @@ source setup.sh
 ```
 
 When you are ready to start the exercise, open the `exercise.ipynb` file in VSCode
-and select the `07-failure-modes` kernel
+and select the `06-failure-modes` kernel
