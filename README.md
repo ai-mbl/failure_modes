@@ -1,10 +1,10 @@
-# Exercise 7: Failure Modes & Limits of Deep Learning
+# Exercise 6: Failure Modes & Limits of Deep Learning
 
 ## Getting this repo
 
 If you are working from the super repository https://github.com/ai-mbl/AI-MBL-2025, don't forget to update this submodule:
 ```
-git submodule update --init --recursive 07_failure_modes
+git submodule update --init --recursive 06_failure_modes
 ```
 
 ## Goal
