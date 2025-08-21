@@ -8,13 +8,13 @@
 #       format_version: '1.3'
 #       jupytext_version: 1.16.4
 #   kernelspec:
-#     display_name: Python [conda env:07-failure-modes]
+#     display_name: Python [conda env:06-failure-modes]
 #     language: python
-#     name: conda-env-07-failure-modes-py
+#     name: conda-env-06-failure-modes-py
 # ---
 
 # %% [markdown]
-# # Exercise 7: Failure Modes and the limits of Deep Learning
+# # Exercise 6: Failure Modes and the limits of Deep Learning
 
 # %% [markdown]
 # In the following exercise, we explore the failure modes and limits of neural networks.
