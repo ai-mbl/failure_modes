@@ -247,7 +247,7 @@ plt.show()
 # <div class="alert alert-success"><h3>
 #     Checkpoint 1</h3>
 #
-# Post to the course chat when you have reached Checkpoint 1. We will discuss all the questions and make more predictions!
+# You have reached Checkpoint 1. We will discuss all the questions and make more predictions!
 #
 # <h4> Learning goals of part 1</h4>
 # In this first part of the exercise we've learned:
@@ -566,7 +566,7 @@ plt.ylabel("negative log likelihood loss")
 # %% [markdown]
 # <div class="alert alert-success"><h3>Checkpoint 2</h3>
 #
-# Post to the course chat when you have reached Checkpoint 2. We will discuss our predictions!
+# You have reached Checkpoint 2. We will discuss our predictions!
 # <h4> Learning goals of part 2</h4>
 # In this second part of the exercise we've learned:
 # <ol>
@@ -745,7 +745,7 @@ cm_analysis(true_labels, pred_tainted_tainted, "Tainted Model on Tainted Data")
 # <div class="alert alert-success"><h3>
 #     Checkpoint 3</h3>
 #
-# Post to the course chat when you have reached Checkpoint 3, and will will discuss our results and reasoning about why they might have happened.
+# You have reached Checkpoint 3, and will discuss our results and reasoning about why they might have happened.
 # <h4> Learning goals of part 3</h4>
 # In this third part of the exercise we've learned:
 # <ol>
@@ -990,7 +990,7 @@ visualize_integrated_gradients(
 # <div class="alert alert-block alert-success"><h3>
 #     Checkpoint 4</h3>
 #     <ol>
-#         Congrats on finishing the integrated gradients task! Let us know on the course chat that you reached checkpoint 4, a
+#         Congrats on finishing the integrated gradients task! Let us know on that you reached checkpoint 4, a
 # and feel free to look at other interpretability methods in the Captum library if you're interested.
 #     </ol>
 # In this fourth part of the exercise we've learned:
@@ -1497,7 +1497,7 @@ for i in range(8):
 # <div class="alert alert-block alert-success"><h3>
 #     Checkpoint 5</h3>
 #     <ol>
-#         Congrats on reaching the final checkpoint! Let us know on the course chat, and we'll discuss the questions once reaching critical mass.
+#         Congrats on reaching the final checkpoint! Let us know and we'll discuss the questions once reaching critical mass.
 #     </ol>
 # </div>
 
