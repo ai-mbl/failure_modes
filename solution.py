@@ -37,7 +37,7 @@
 # *NOTE*: There is very little coding in this exercise, as the goal is for you to think deeply about how neural networks can be influenced by differences in data. We encourage you to think deeply about the questions and discuss them in small groups, as well as with the full class during the frequent checkpoints.
 #
 # <div class="alert alert-danger">
-# Set your python kernel to <code>07-failure-modes</code>
+# Set your python kernel to <code>06-failure-modes</code>
 # </div>
 
 # %% [markdown]
