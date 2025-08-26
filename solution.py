@@ -99,7 +99,7 @@ tainted_test_dataset = copy.deepcopy(test_dataset)
 # %% [markdown]
 # ## Part 1.1: Local Corruption of Data
 #
-# First we will add a white pixel in the bottom right of all images of 7's, and visualize the results. This is an example of a local change to the images, where only a small portion of the image is corrupted.
+# First we will add a white  group of pixels in the bottom right of all images of 7's, and visualize the results. This is an example of a local change to the images, where only a small portion of the image is corrupted.
 
 # %%
 # Add nine white pixels in the bottom right of all images of 7's
